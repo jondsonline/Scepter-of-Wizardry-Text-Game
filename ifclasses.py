@@ -100,6 +100,7 @@ class Player:
         self.location = location
         self.score = 0
         self.inventory = Inventory([])
+        self.is_lit = False
 
 
 class Verbs:

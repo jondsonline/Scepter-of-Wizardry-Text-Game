@@ -47,6 +47,10 @@ def do_go():
 
         for exit in pc.location.exits:
             if parsed.noun == exit:
+                if pc.location == cave and not flag.ogre_dead:
+                    print("You try to escape the ogre, but it is too quick for you. He smashes\n"
+                          "his club down on your head and you are killed.")
+                    sys.exit()
                 for room in room_list:
                     if pc.location.exits[parsed.noun] == room.id:
                         exit_found = True
@@ -59,22 +63,7 @@ def do_go():
     else:
         print("That is not a valid direction")
         return
-"""
-def do_go():
-    if parsed.noun in formal_directions:
-        # loop through current room exits
-        for exit in pc.location.exits:
-            # if parsed noun matches existing exit
-            try:
-                if parsed.noun in pc.location.exits[parsed.noun]:
-                    for room in room_list:
-                        if pc.location.exits[parsed.noun] == room.id:
-                            pc.location = room
-                            break
-            except KeyError:
-                print("You can't go that way.")
-                break
-"""
+
 def do_take():
     if parsed.noun == "NA":
         print("What do you want to take?")
@@ -147,8 +136,60 @@ def do_inventory():
         pc.inventory.display()
 
 
+def do_cast():
+    if parsed.noun == "light":
+        print("You cast the light spell and a small, bright orb of light\n"
+              "appears above your head. It should last all day.")
+        if not flag.is_lit:
+            flag.is_lit = True
+            cave.desc = "You are in a small, dank cave. A large ogre stands before you, holding a\n" \
+                        "giant club. You get the feeling he wants to smash your skull."
+            cave.add_exit(east="denseforest")
+
+    elif parsed.noun == "arrow":
+        if pc.location == cave:
+            if not flag.ogre_dead:
+                print("You cast an arrow spell. A thin beam of light shoots from your fingers\n"
+                      "and strikes the ogre. killing it.")
+                flag.ogre_dead = True
+                cave.desc = "You are relieved to see that the ogre lies in a crumpled heap upon\n" \
+                            "the ground, dead. Now that you are able to focus more clearly on the\n" \
+                            "rest of the room, you notice a door built into the west wall. It seems\n" \
+                            "to be locked."
+                cave.isvisited = False
+                show_room()
+            elif flag.ogre_dead:
+                print("You cast another arrow spell at the ogre. Yep, still dead.")
+        else:
+            print("A thin beam of light shoots from your fingers. Nothing exceptional\n"
+                  "happens. You wonder if you should be wasting your magical energy\n"
+                  "like that.")
+
+    elif parsed.noun == "unlock":
+        if pc.location == cave and flag.ogre_dead:
+            if not flag.door_unlocked:
+                print("You cast the unlock spell, and you hear a loud click come from the\n"
+                      "door. It swings open, revealing a chamber on the other side.")
+                flag.door_unlocked = True
+                cave.desc = "The ogre is dead and the door to the west is unlocked. You look\n" \
+                            "around the cave and feel quite a sense of accomplishment."
+                cave.isvisited = False
+                cave.add_exit(west="chamber")
+            else:
+                print("You've already unlocked the door. No sense wasting your magical\n"
+                      "energy.")
+        else:
+            print("You cast the unlock spell, though you're not sure what you hoped to\n"
+                  "accomplish by doing so.")
+
+    elif parsed.noun == "NA":
+        print("What spell do you want to cast?")
+
+    else:
+        print("You cast a spell.")
+
 def do_exit():
-    print("This will exit the game.")
+    print("Exiting the game...")
     sys.exit()
 
 
@@ -176,9 +217,10 @@ verbs.add(get=do_take, take=do_take)
 verbs.add(drop=do_drop)
 verbs.add(look=do_look, x=do_look, examine=do_look)
 verbs.add(i=do_inventory, inventory=do_inventory)
+verbs.add(cast=do_cast)
 verbs.add(verbs="do_verbs")
 verbs.add(help=do_help)
-verbs.add(exit=do_exit)
+verbs.add(exit=do_exit, quit=do_exit)
 verbs.add(NA=do_nothing)
 
 # --------------
@@ -189,6 +231,8 @@ verbs.add(NA=do_nothing)
 nouns = Nouns()
 nouns.add(book="spellbook", spellbook="spellbook")
 nouns.add(bread="bread", loaf="bread")
+nouns.add(scepter="scepter", sceptre="scepter")
+nouns.add(arrow="arrow", light="light", sleep="sleep", teleport="teleport", unlock="unlock")
 nouns.add(north="north", n="north", east="east", e="east")
 nouns.add(south="south", s="south", west="west", w="west")
 nouns.add(NA="NA")
@@ -257,6 +301,10 @@ game_continues = True
 while game_continues == True:
 
     show_room()
+
+    if pc.location == cave and not flag.is_lit:
+        sys.exit()
+
     parser_get_input()
     parser_match_words()
 

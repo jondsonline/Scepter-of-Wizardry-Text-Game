@@ -1,5 +1,14 @@
 from ifclasses import *
 
+
+class Flags():
+    def __init__(self):
+        self.is_lit = False
+        self.ogre_dead = False
+        self.door_unlocked = False
+        self.guard_asleep = False
+
+
 # ITEMS
 
 spellbook = Item('spellbook')
@@ -144,8 +153,9 @@ chamber.title = "CHAMBER"
 chamber.desc = "You are in a small chamber, barely wide enough for you to lie down."
 chamber.inventory.add(scepter)
 chamber.add_exit(east='cave')
+room_list.append(chamber)
 
 
 # start the player in hut
-pc = Player(hut)
-
+pc = Player(denseforest)
+flag = Flags()
