@@ -157,5 +157,5 @@ room_list.append(chamber)
 
 
 # start the player in hut
-pc = Player(denseforest)
+pc = Player(hut)
 flag = Flags()

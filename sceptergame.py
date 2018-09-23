@@ -150,7 +150,7 @@ def do_cast():
         if pc.location == cave:
             if not flag.ogre_dead:
                 print("You cast an arrow spell. A thin beam of light shoots from your fingers\n"
-                      "and strikes the ogre. killing it.")
+                      "and strikes the ogre, killing it.")
                 flag.ogre_dead = True
                 cave.desc = "You are relieved to see that the ogre lies in a crumpled heap upon\n" \
                             "the ground, dead. Now that you are able to focus more clearly on the\n" \
@@ -181,6 +181,24 @@ def do_cast():
         else:
             print("You cast the unlock spell, though you're not sure what you hoped to\n"
                   "accomplish by doing so.")
+
+    elif parsed.noun == "teleport":
+        if pc.location != hut:
+            print("There is a sudden flash of light and you find yourself back in\n"
+                  "your hut.")
+            pc.location = hut
+        else:
+            print("No point casting that. You're already in your hut.")
+
+    elif parsed.noun == "sleep":
+        if pc.location == cave:
+            if flag.ogre_dead == False:
+                print("You cast your sleep spell. The ogre seems dazed for a moment.\n"
+                      "Then it shrugs and growls menacingly.")
+            else:
+                print("The ogre is already sleeping eternally.")
+        else:
+            print("There's no one around to cast the spell on.")
 
     elif parsed.noun == "NA":
         print("What spell do you want to cast?")
