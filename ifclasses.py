@@ -69,17 +69,23 @@ class Room:
 
     def show_short_desc(self):
         print(self.title)
+        self.show_inventory()
+        self.show_exits()
 
     def show_long_desc(self):
 
         print(self.title)
         print(self.desc)
+        self.show_inventory()
+        self.show_exits()
 
+    def show_inventory(self):
         # print objects in room
         if len(self.inventory) > 0:
             print("OBJECTS HERE:")
             self.inventory.display()
 
+    def show_exits(self):
         # print exits
         print("EXITS: ", end='')
         if len(self.exits) == 0:
