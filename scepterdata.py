@@ -29,6 +29,13 @@ scepter = Item('scepter')
 scepter.title = 'The Scepter of Wizardry'
 scepter.desc = "A plain, unadorned rod. You don't see what all the fuss is about."
 
+ogre = Item('ogre')
+ogre.title = 'An ogre'
+ogre.desc = "This is a big, muscular, ugly and smelly ogre. You're fairly certain\n" \
+            "this is the ogre that stole the Scepter of Wizardry from you."
+ogre.is_listed = False
+ogre.is_takeable = False
+
 # ROOMS
 
 room_list = []
@@ -142,6 +149,7 @@ cave.title = "DARK CAVE"
 cave.desc = "You bravely enter the dark cave and quickly regret it. Although you never see\n" \
             "what hits you, something hard slams down on your head and thrusts you into\n" \
             "eternal sleep."
+cave.inventory.add(ogre)
 # NO EXITS INTIALLY - Will be added when player casts Light
 room_list.append(cave)
 

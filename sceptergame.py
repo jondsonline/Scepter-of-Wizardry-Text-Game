@@ -73,10 +73,13 @@ def do_take():
 
     for item in pc.location.inventory:
         if parsed.noun == item.id:
-            pc.location.inventory.drop(item)
-            pc.inventory.add(item)
             item_there = True
-            print("Taken.")
+            if item.is_takeable:
+                pc.location.inventory.drop(item)
+                pc.inventory.add(item)
+                print("Taken.")
+            else:
+                print("You can't take that.")
 
     if item_there == False:
         print("I dont see a(n)",parsed.noun,"here.")
@@ -157,7 +160,6 @@ def do_cast():
                             "rest of the room, you notice a door built into the west wall. It seems\n" \
                             "to be locked."
                 cave.isvisited = False
-                show_room()
             elif flag.ogre_dead:
                 print("You cast another arrow spell at the ogre. Yep, still dead.")
         else:
@@ -250,6 +252,8 @@ nouns = Nouns()
 nouns.add(book="spellbook", spellbook="spellbook")
 nouns.add(bread="bread", loaf="bread")
 nouns.add(scepter="scepter", sceptre="scepter")
+nouns.add(ogre="ogre", monster="ogre")
+nouns.add(guard="guard", soldier="guard")
 nouns.add(arrow="arrow", light="light", sleep="sleep", teleport="teleport", unlock="unlock")
 nouns.add(north="north", n="north", east="east", e="east")
 nouns.add(south="south", s="south", west="west", w="west")

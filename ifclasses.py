@@ -8,12 +8,12 @@ class Item:
     The item_id for an item should have a matching
     value in the Nouns dictionary.
     """
-    id = ""
-    title = "item"
-    desc = "This is an item"
-
     def __init__(self, id):
         self.id = id
+        self.title = "item"
+        self.desc = "This is an item"
+        self.is_listed = True     # is listed in room inventory
+        self.is_takeable = True   # can be taken from a room
 
     def __iter__(self):
         return self
@@ -36,7 +36,8 @@ class Inventory(list):
 
     def display(self):
         for item in self:
-            print(item.title)
+            if item.is_listed == True:
+                print(item.title)
 
     def has(self, item_sought):
         self.has_item = False
@@ -82,8 +83,14 @@ class Room:
     def show_inventory(self):
         # print objects in room
         if len(self.inventory) > 0:
-            print("OBJECTS HERE:")
-            self.inventory.display()
+            list_items = False
+            for item in self.inventory:
+                if item.is_listed:
+                    list_items = True
+
+            if list_items:
+                print("OBJECTS HERE:")
+                self.inventory.display()
 
     def show_exits(self):
         # print exits
