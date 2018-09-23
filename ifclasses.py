@@ -87,6 +87,7 @@ class Room:
             for item in self.inventory:
                 if item.is_listed:
                     list_items = True
+                    break
 
             if list_items:
                 print("OBJECTS HERE:")
@@ -148,13 +149,13 @@ class Verbs:
 class Nouns:
     """
     When using the noun dictionary, the keys will
-    be the nouns used by the player, while the
-    values will be the actual nouns used by the
-    program itself.
+    be the approved nouns typed by the player,
+    while the values will be the actual nouns used
+    by the program itself.
 
     Note that an Item is not the same as a noun
     in terms of using it in the program. A noun
-    is what is used by the program and parser.
+    is what is only used by the parser.
     Every Item in the game should have at least
     one matching value in the Nouns dictionary.
     """

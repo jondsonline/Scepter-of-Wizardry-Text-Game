@@ -21,10 +21,6 @@ spellbook.desc = "This is your personal spellbook, containing five spells:\n" \
                  "UNLOCK: Opens a lock.\n" \
                  "To cast a spell, enter CAST <SPELL NAME>"
 
-bread = Item('bread')
-bread.title = 'A loaf of bread'
-bread.desc = "This is all you have to eat. You're famished."
-
 scepter = Item('scepter')
 scepter.title = 'The Scepter of Wizardry'
 scepter.desc = "A plain, unadorned rod. You don't see what all the fuss is about."
@@ -35,6 +31,14 @@ ogre.desc = "This is a big, muscular, ugly and smelly ogre. You're fairly certai
             "this is the ogre that stole the Scepter of Wizardry from you."
 ogre.is_listed = False
 ogre.is_takeable = False
+
+guard = Item('guard')
+guard.title = 'Town Guard'
+guard.desc = "The town guard has been ordered to prevent you from entering town\n" \
+             "until you've retrieved the Scepter of Wizardry. This one eyes you\n" \
+             "suspiciously."
+guard.is_listed = False
+guard.is_takeable = False
 
 # ROOMS
 
@@ -49,7 +53,7 @@ hut.desc = "You are in an old, rickety hut that was probably once used by\n" \
            "hunters from town. Since your recent exile from Bookburg, it\n" \
            "has become your home."
 hut.add_exit(west='outsidehut')
-hut.inventory.add(spellbook, bread)
+hut.inventory.add(spellbook)
 room_list.append(hut)
 
 
@@ -91,7 +95,8 @@ gate = Room('gate')
 gate.title = "TOWN GATE"
 gate.desc = "You stand outside the gate leading into the town of Bookburg. A guard blocks\n" \
             "the entrance and will not let you pass."
-gate.add_exit(north='farmersfield', south='town')
+gate.inventory.add(guard)
+gate.add_exit(north='farmersfield')
 room_list.append(gate)
 
 
@@ -100,12 +105,11 @@ room_list.append(gate)
 town = Room('town')
 town.title = "TOWN OF BOOKBURG"
 town.desc = "You enter the town with trepidation, knowing you have not yet returned the\n" \
-            "Wizard's Stone. You only get a few steps down the street when a gigantic,\n" \
+            "Scepter of Wizardry. You only get a few steps down the street when a gigantic,\n" \
             "bearded, ghostly face appears before you. It is the face of the head of the\n" \
             "Wizard's Guild of Bookburg.\n" \
             "   \"You dare to enter Bookburg without retrieving the Scepter of Wizardry?\" a\n" \
             "voice booms. \"Get thee hence and return when you have retrieved it!\"\n" \
-            "   There is a sudden flash of light and you find yourself back in your hut."
 # NO EXITS -- Text displayed in town is entirely dependent upon victory condition
 room_list.append(town)
 
