@@ -62,7 +62,7 @@ room_list.append(hut)
 outsidehut = Room('outsidehut')
 outsidehut.title = "OUTSIDE HUT"
 outsidehut.desc = "You stand outside an unimpressive looking hut that looks like\n" \
-               "it will soon fall apart. To the east is the forest path that\n" \
+               "it will soon fall apart. To the west is the forest path that\n" \
                "leads to town."
 outsidehut.add_exit(east='hut', west='forestpath')
 room_list.append(outsidehut)

@@ -121,7 +121,7 @@ def do_drop():
 
 def do_look():
     if parsed.noun == "NA":
-        pc.location.show_long_desc()
+        pc.location.isvisited = False
         return
 
     item_found = False
@@ -274,6 +274,7 @@ def do_cast_sleep():
                         "was blocking you from entering town is now asleep on the ground,\n" \
                         "thanks to your handiwork."
             flag.guard_asleep = True
+            gate.isvisited = False
             gate.add_exit(south='town')
         else:
             print("The guard is already asleep.")
